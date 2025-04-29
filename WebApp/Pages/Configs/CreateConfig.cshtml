@@ -1,0 +1,33 @@
+@page
+@model WebApp.Pages.Configs.CreateConfigModel
+@{
+    ViewData["Title"] = "Create Configuration";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Create a New Configuration</h1>
+
+    <form method="post">
+        <div class="form-group">
+            <label for="name">Configuration Name:</label>
+            <input type="text" id="name" name="Name" class="form-control" required />
+        </div>
+        <div class="form-group">
+            <label for="boardWidth">Board Width:</label>
+            <input type="number" id="boardWidth" name="BoardWidth" class="form-control" min="3" max="20" required />
+        </div>
+        <div class="form-group">
+            <label for="boardHeight">Board Height:</label>
+            <input type="number" id="boardHeight" name="BoardHeight" class="form-control" min="3" max="20" required />
+        </div>
+        <div class="form-group">
+            <label for="gridSize">Grid Size:</label>
+            <input type="number" id="gridSize" name="GridSize" class="form-control" min="3" max="20" required />
+        </div>
+        <div class="form-group">
+            <label for="winCondition">Win Condition:</label>
+            <input type="number" id="winCondition" name="WinCondition" class="form-control" min="3" max="10" required />
+        </div>
+        <button type="submit" class="btn btn-success mt-3">Save Configuration</button>
+    </form>
+</div>

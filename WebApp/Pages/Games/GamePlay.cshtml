@@ -1,0 +1,75 @@
+@page "{id:int}"
+@using GameBrain
+
+@model WebApp.Pages.Games.GamePlayModel
+@{
+    ViewData["Title"] = "Game Play";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Tic-Tac-Two</h1>
+    
+    <h3>Current Player: @Model.CurrentPlayer</h3>
+
+    @if (!string.IsNullOrEmpty(Model.WinMessage))
+    {
+        <div class="alert alert-success">@Model.WinMessage</div>
+    }
+
+    <table class="table table-bordered">
+        @for (int y = 0; y < Model.BoardHeight; y++)
+        {
+            <tr>
+                @for (int x = 0; x < Model.BoardWidth; x++)
+                {
+                    var piece = Model.GameBoard[x][y];
+                    var isInGrid = x >= Model.GridPositionX && x < Model.GridPositionX + Model.GridSize &&
+                                    y >= Model.GridPositionY && y < Model.GridPositionY + Model.GridSize;
+
+                    <td class="text-center @(isInGrid ? "grid-cell" : "board-cell")">
+                        @if (piece == EGamePiece.Empty) // Empty square
+                        {
+                            <form method="post" class="d-inline">
+                                <input type="hidden" name="Command" value="Place" />
+                                <input type="hidden" name="GameModeInput" value="@Model.GameModeInput" />
+                                <input type="hidden" name="X" value="@x" />
+                                <input type="hidden" name="Y" value="@y" />
+                                <button class="btn btn-outline-primary btn-sm">Place</button>
+                            </form>
+                        }
+                        else if (Model.SelectedPiece?.X == x && Model.SelectedPiece?.Y == y) // Selected piece
+                        {
+                            <form method="post" class="d-inline">
+                                <input type="hidden" name="Command" value="Deselect" />
+                                <button class="btn btn-warning btn-sm">Deselect</button>
+                            </form>
+                        }
+                        else if (piece > 0) // Occupied square
+                        {
+                            <span>@(piece == (EGamePiece)1 ? "X" : "O")</span>
+                        }
+                    </td>
+                }
+            </tr>
+        }
+    </table>
+
+    <div>
+        <form method="post">
+            <input type="hidden" name="Command" value="MoveGrid" />
+            <select name="Direction" class="form-select" @(Model.TotalMovesMade < 5 ? "disabled" : "")>
+                <option value="Up">Up</option>
+                <option value="Down">Down</option>
+                <option value="Left">Left</option>
+                <option value="Right">Right</option>
+                <option value="UpLeft">Up-Left</option>
+                <option value="UpRight">Up-Right</option>
+                <option value="DownLeft">Down-Left</option>
+                <option value="DownRight">Down-Right</option>
+            </select>
+            <button type="submit" class="btn btn-primary mt-2" @(Model.TotalMovesMade < 5 ? "disabled" : "")>
+                Move Grid
+            </button>
+        </form>
+    </div>
+</div>

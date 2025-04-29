@@ -1,0 +1,34 @@
+@page
+@model WebApp.Pages.Games.NewGameModel
+@{
+    ViewData["Title"] = "New Game";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Start a New Game</h1>
+
+    <form method="post">
+        <div class="form-group">
+            <label for="configName">Choose Game Configuration:</label>
+            <select id="configName" name="ConfigName" class="form-control">
+                @foreach (var config in Model.Configurations)
+                {
+                <option value="@config">@config</option>
+                }
+            </select>
+        </div>
+        <div class="form-group mt-3">
+            <label for="gameMode">Choose Game Mode:</label>
+            <select id="gameMode" name="SelectedGameMode" asp-for="SelectedGameMode" class="form-control">
+                <option value="TwoPlayer">Two Player</option>
+                <option value="PlayerVsAI">Player vs AI</option>
+                <option value="AIVsAI">AI vs AI</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Start Game</button>
+    </form>
+
+    <div class="mt-4">
+        <a asp-page="/Configs/CreateConfig" class="btn btn-secondary">Create New Configuration</a>
+    </div>
+</div>
